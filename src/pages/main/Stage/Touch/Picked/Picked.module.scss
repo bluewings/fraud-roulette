@@ -1,0 +1,10 @@
+.root {
+  position: fixed;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.focus {
+  fill: none;
+  transition: stroke-width 0.3s linear;
+}
