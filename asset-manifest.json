@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/fraud-roulette/static/css/main.854a2c21.chunk.css",
+    "main.js": "/fraud-roulette/static/js/main.5cd6b6ca.chunk.js",
+    "main.js.map": "/fraud-roulette/static/js/main.5cd6b6ca.chunk.js.map",
+    "runtime-main.js": "/fraud-roulette/static/js/runtime-main.6e40a004.js",
+    "runtime-main.js.map": "/fraud-roulette/static/js/runtime-main.6e40a004.js.map",
+    "static/js/2.e0bc35b5.chunk.js": "/fraud-roulette/static/js/2.e0bc35b5.chunk.js",
+    "static/js/2.e0bc35b5.chunk.js.map": "/fraud-roulette/static/js/2.e0bc35b5.chunk.js.map",
+    "index.html": "/fraud-roulette/index.html",
+    "precache-manifest.b6a577eced8420d8c1363b34e0e51f0e.js": "/fraud-roulette/precache-manifest.b6a577eced8420d8c1363b34e0e51f0e.js",
+    "service-worker.js": "/fraud-roulette/service-worker.js",
+    "static/css/main.854a2c21.chunk.css.map": "/fraud-roulette/static/css/main.854a2c21.chunk.css.map",
+    "static/js/2.e0bc35b5.chunk.js.LICENSE": "/fraud-roulette/static/js/2.e0bc35b5.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6e40a004.js",
+    "static/js/2.e0bc35b5.chunk.js",
+    "static/css/main.854a2c21.chunk.css",
+    "static/js/main.5cd6b6ca.chunk.js"
+  ]
+}
