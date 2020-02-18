@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/fraud-roulette/precache-manifest.b6a577eced8420d8c1363b34e0e51f0e.js"
+  "/fraud-roulette/precache-manifest.4127d20e882585ca6fbbaa06d1f82fff.js"
 );
 
 self.addEventListener('message', (event) => {
