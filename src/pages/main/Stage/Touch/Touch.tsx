@@ -3,10 +3,19 @@ import cx from 'classnames';
 import Picked from './Picked';
 import styles from './Touch.module.scss';
 
-const SIZE = 150;
-
 function Touch(props: any) {
-  const { id, x, y, color, end, pickedId, isPicked, master } = props;
+  const {
+    id,
+    x,
+    y,
+    color,
+    end,
+    pickedId,
+    isPicked,
+    master,
+    size,
+    debug,
+  } = props;
 
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
@@ -14,7 +23,7 @@ function Touch(props: any) {
   const hidden = (pickedId && pickedId !== id) || end;
   return (
     <>
-      {isPicked && <Picked {...props} size={SIZE} />}
+      {isPicked && <Picked {...props} size={size} />}
       <div
         className={cx(
           styles.circle_wrap,
@@ -23,14 +32,14 @@ function Touch(props: any) {
           !hidden && styles.animate,
           isPicked && styles.picked,
         )}
-        style={{ top: y - SIZE / 2, left: x - SIZE / 2 }}
+        style={{ top: y - size / 2, left: x - size / 2 }}
       >
-        <div className={cx(styles.circle, master && styles.master)}>
+        <div className={cx(styles.circle, debug && master && styles.master)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
-            width={SIZE}
-            height={SIZE}
+            width={size}
+            height={size}
             viewBox="0 0 140 140"
           >
             {ready && (

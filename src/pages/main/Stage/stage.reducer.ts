@@ -2,12 +2,28 @@ import { createAction } from 'redux-actions';
 import { useImmerReducer } from 'use-immer';
 import { get } from 'lodash-es';
 import { getColor } from '../../../helpers/util';
+import { useMemo } from 'react';
 
 const initialState = {
   pickedId: null,
   masterId: null,
-  touches: [],
-  _touches: {},
+  touches: [
+    // {
+    //   id: 0,
+    //   x: 250,
+    //   y: 100,
+    //   _x: 255,
+    //   _y: 185,
+    //   _dist: 25,
+    //   color: '#222',
+    // },
+    // { id: 1, x: 120, y: 200, color: '#222' },
+    // { id: 2, x: 420, y: 200, color: '#222' },
+  ],
+  _touches: {
+    // 0: { id: 0, x: 50, y: 100, color: '#222' },
+    // 1: { id: 1, x: 120, y: 300, color: '#222' },
+  },
 };
 
 const TOUCH = 'stage/TOUCH';
@@ -21,7 +37,9 @@ export const touch = createAction(
   (eventType: string, changedTouches: any[]) => ({ eventType, changedTouches }),
 );
 
-export const pick = createAction(PICK, () => null);
+export const pick = createAction(PICK, (targetId: string | null) => ({
+  targetId,
+}));
 
 const timestamp = () => new Date().valueOf();
 
@@ -83,22 +101,6 @@ const reducer = (draft: any, action: any) => {
       }
       draft.touches = Object.values(draft._touches);
 
-      draft.masterId = get(
-        [
-          ...draft.touches.filter(
-            ({ end, _dist }: any) =>
-              !end && MIN_DISTANCE < _dist && _dist < MAX_DISTANCE,
-          ),
-        ].sort((a: any, b: any) => {
-          if (a._dist === b._dist) {
-            return 0;
-          }
-          return a._dist < b._dist ? 1 : -1;
-        }),
-        [0, 'id'],
-        null,
-      );
-
       if (
         !draft.touches.find(({ id, end }: any) => id === draft.pickedId && !end)
       ) {
@@ -110,10 +112,14 @@ const reducer = (draft: any, action: any) => {
       draft.touches = Object.values(draft._touches);
       const availTouches = draft.touches.filter(({ end }: any) => !end);
       if (draft.pickedId === null && availTouches.length > 1) {
-        draft.pickedId = get(availTouches, [
-          ~~(Math.random() * availTouches.length),
-          'id',
-        ]);
+        if (availTouches.find((e: any) => e.id === payload.targetId)) {
+          draft.pickedId = payload.targetId;
+        } else {
+          draft.pickedId = get(availTouches, [
+            ~~(Math.random() * availTouches.length),
+            'id',
+          ]);
+        }
         draft.touches.forEach((e: any) => {
           if (e.id === draft.pickedId) {
             e.isPicked = true;
@@ -128,7 +134,33 @@ const reducer = (draft: any, action: any) => {
 };
 
 function useStageReducer(data?: any) {
-  return useImmerReducer(reducer, data || initialState);
+  const [state, dispatch] = useImmerReducer(reducer, data || initialState);
+
+  const masterId = useMemo(() => {
+    return get(
+      [
+        ...state.touches.filter(
+          ({ end, _dist }: any) =>
+            !end && MIN_DISTANCE < _dist && _dist < MAX_DISTANCE,
+        ),
+      ].sort((a: any, b: any) => {
+        if (a._dist === b._dist) {
+          return 0;
+        }
+        return a._dist < b._dist ? 1 : -1;
+      }),
+      [0, 'id'],
+      null,
+    );
+  }, [state.touches]);
+
+  return [
+    {
+      ...state,
+      masterId,
+    },
+    dispatch,
+  ];
 }
 
 export default useStageReducer;
